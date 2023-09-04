@@ -1,7 +1,6 @@
 package org.example;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,11 +31,12 @@ public class BankService {
     public void transfer(
             String sourceAccountNumber,
             BigDecimal amount,
+            String desciption,
             String targetAccountNumber) {
         Account source = findAccountByNumber(sourceAccountNumber);
         Account target = findAccountByNumber(targetAccountNumber);
-        source.withdraw(amount);
-        target.deposit(amount);
+        source.withdraw(amount, desciption);
+        target.deposit(amount, desciption);
     }
 
     private Account findAccountByNumber(String sourceAccountNumber) {
@@ -68,6 +68,7 @@ public class BankService {
             }
             transfer(sourceAccountNumber,
                     moneyForOnePerson,
+                    "Split of account " + sourceAccountNumber,
                     singleAccountNumber
             );
         }
@@ -89,7 +90,7 @@ public class BankService {
             roundingMode = RoundingMode.HALF_DOWN;
         }
         BigDecimal interestRounded = interest.setScale(2, roundingMode);
-        account.deposit(interestRounded);
+        account.deposit(interestRounded, "Interest");
     }
 
     @Override
@@ -98,6 +99,6 @@ public class BankService {
         for (Account account : accounts) {
             text.append("\n").append(account);
         }
-        return text.toString() + "\n}";
+        return text + "\n}";
     }
 }

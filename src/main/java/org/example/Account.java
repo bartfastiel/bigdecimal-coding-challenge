@@ -1,12 +1,17 @@
 package org.example;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Account {
 
     private String accountNumber;
-    private BigDecimal saldo = BigDecimal.ZERO;
+    private final List<Transaction> transactions = new ArrayList<>(List.of(
+            new Transaction(BigDecimal.ZERO, BigDecimal.ZERO, "Kontoeröffnung", Instant.now())
+    ));
     private Set<Client> owners;
 
     public Account(String accountNumber, Set<Client> owners) {
@@ -14,43 +19,40 @@ public class Account {
         this.owners = owners;
     }
 
-    public void deposit(BigDecimal amount) {
-        saldo = saldo.add(amount);
+    public void deposit(BigDecimal amount, String description) {
+        transactions.add(new Transaction(
+                amount,
+                getSaldo().add(amount),
+                description,
+                Instant.now()
+        ));
     }
 
-    public void withdraw(BigDecimal amount) {
-        saldo = saldo.subtract(amount);
+    public void withdraw(BigDecimal amount, String description) {
+        deposit(amount.negate(), description);
     }
 
     public String getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
     public BigDecimal getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(BigDecimal saldo) {
-        this.saldo = saldo;
+        return transactions.get(transactions.size() - 1).saldo();
     }
 
     public Set<Client> getOwners() {
         return owners;
     }
 
-    public void setOwners(Set<Client> owners) {
-        this.owners = owners;
-    }
-
     @Override
     public String toString() {
+        StringBuilder transactionsText = new StringBuilder();
+        for (Transaction transaction : transactions) {
+            transactionsText.append("  ").append(transaction).append("\n");
+        }
         return "Account{" +
                 "accountNumber='" + accountNumber + '\'' +
-                ", saldo=" + saldo +
+                ", transactions=\n" + transactionsText +
                 ", owners=" + owners +
                 '}';
     }
