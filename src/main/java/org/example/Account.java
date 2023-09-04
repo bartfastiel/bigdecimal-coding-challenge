@@ -12,6 +12,10 @@ public class Account {
         saldo = saldo.add(amount);
     }
 
+    public void withdraw(BigDecimal amount) {
+        saldo = saldo.subtract(amount);
+    }
+
     public String getAccountNumber() {
         return accountNumber;
     }
