@@ -1,6 +1,7 @@
 package org.example;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -71,6 +72,24 @@ public class BankService {
             );
         }
         return resultingAccounts;
+    }
+
+    public void payInterests(BigDecimal rate) {
+        for (Account account : accounts) {
+            payInterests(account, rate);
+        }
+    }
+
+    private void payInterests(Account account, BigDecimal rate) {
+        BigDecimal interest = account.getSaldo().multiply(rate.movePointLeft(2));
+        RoundingMode roundingMode;
+        if (interest.compareTo(BigDecimal.ZERO) < 0) {
+            roundingMode = RoundingMode.HALF_UP;
+        } else {
+            roundingMode = RoundingMode.HALF_DOWN;
+        }
+        BigDecimal interestRounded = interest.setScale(2, roundingMode);
+        account.deposit(interestRounded);
     }
 
     @Override

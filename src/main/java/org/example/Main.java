@@ -29,5 +29,25 @@ public class Main {
         bankOfExamplehausen.split(jointAccount);
         System.out.println(bankOfExamplehausen);
 
+
+        BankService bankOfZinshausen = new BankService();
+        String interestCheckNumber1 = bankOfZinshausen.open(new Client(
+                "id-1",
+                "Zins",
+                "Test"
+        ));
+        String interestCheckNumber2 = bankOfZinshausen.open(new Client(
+                "id-2",
+                "Zins",
+                "Test"
+        ));
+
+        bankOfZinshausen.transfer(interestCheckNumber1, BigDecimal.valueOf(100), interestCheckNumber2);
+
+        bankOfZinshausen.payInterests(new BigDecimal("1.005"));
+
+        System.out.println(bankOfZinshausen);
+
+
     }
 }
