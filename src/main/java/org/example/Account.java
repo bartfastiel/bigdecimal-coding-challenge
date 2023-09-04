@@ -1,9 +1,11 @@
 package org.example;
 
+import java.math.BigDecimal;
+
 public class Account {
 
     private String accountNumber;
-    private String saldo;
+    private BigDecimal saldo;
     private Client owner;
 
     public String getAccountNumber() {
@@ -14,11 +16,11 @@ public class Account {
         this.accountNumber = accountNumber;
     }
 
-    public String getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(String saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 
