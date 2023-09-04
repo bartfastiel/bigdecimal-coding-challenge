@@ -5,8 +5,12 @@ import java.math.BigDecimal;
 public class Account {
 
     private String accountNumber;
-    private BigDecimal saldo;
+    private BigDecimal saldo = BigDecimal.ZERO;
     private Client owner;
+
+    public void deposit(BigDecimal amount) {
+        saldo = saldo.add(amount);
+    }
 
     public String getAccountNumber() {
         return accountNumber;
