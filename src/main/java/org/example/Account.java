@@ -8,6 +8,11 @@ public class Account {
     private BigDecimal saldo = BigDecimal.ZERO;
     private Client owner;
 
+    public Account(String accountNumber, Client owner) {
+        this.accountNumber = accountNumber;
+        this.owner = owner;
+    }
+
     public void deposit(BigDecimal amount) {
         saldo = saldo.add(amount);
     }
