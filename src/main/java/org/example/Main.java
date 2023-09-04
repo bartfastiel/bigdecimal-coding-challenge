@@ -1,6 +1,7 @@
 package org.example;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
@@ -22,6 +23,8 @@ public class Main {
 
         bankOfExamplehausen.transfer(donaldAccountNumber, BigDecimal.valueOf(100), dagobertAccountNumber);
 
+
+        String jointAccount = bankOfExamplehausen.open(Set.of(dagobert, donald));
         System.out.println(bankOfExamplehausen);
 
 

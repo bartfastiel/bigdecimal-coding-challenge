@@ -12,11 +12,15 @@ public class BankService {
     private final Set<Client> clients = new HashSet<>();
 
     public String open(Client owner) {
-        clients.add(owner);
+        return open(Set.of(owner));
+    }
+
+    public String open(Set<Client> owners) {
+        clients.addAll(owners);
         String accountNumber = "" + lastAccountNumber++;
         accounts.add(new Account(
                 accountNumber,
-                owner
+                owners
         ));
         return accountNumber;
     }

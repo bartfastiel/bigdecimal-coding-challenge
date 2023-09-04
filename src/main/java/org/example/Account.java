@@ -1,16 +1,17 @@
 package org.example;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 public class Account {
 
     private String accountNumber;
     private BigDecimal saldo = BigDecimal.ZERO;
-    private Client owner;
+    private Set<Client> owners;
 
-    public Account(String accountNumber, Client owner) {
+    public Account(String accountNumber, Set<Client> owners) {
         this.accountNumber = accountNumber;
-        this.owner = owner;
+        this.owners = owners;
     }
 
     public void deposit(BigDecimal amount) {
@@ -37,20 +38,20 @@ public class Account {
         this.saldo = saldo;
     }
 
-    public Client getOwner() {
-        return owner;
+    public Set<Client> getOwners() {
+        return owners;
     }
 
-    public void setOwner(Client owner) {
-        this.owner = owner;
+    public void setOwners(Set<Client> owners) {
+        this.owners = owners;
     }
 
     @Override
     public String toString() {
         return "Account{" +
                 "accountNumber='" + accountNumber + '\'' +
-                ", saldo='" + saldo + '\'' +
-                ", owner=" + owner +
+                ", saldo=" + saldo +
+                ", owners=" + owners +
                 '}';
     }
 }
