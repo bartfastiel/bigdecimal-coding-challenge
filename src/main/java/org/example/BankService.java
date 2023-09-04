@@ -1,7 +1,10 @@
 package org.example;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class BankService {
@@ -44,11 +47,38 @@ public class BankService {
         return null;
     }
 
+    public List<String> split(String sourceAccountNumber) {
+        Account source = findAccountByNumber(sourceAccountNumber);
+        int numberOfOwners = source.getOwners().size();
+        if (numberOfOwners < 2) {
+            return List.of(sourceAccountNumber);
+        }
+        List<String> resultingAccounts = new ArrayList<>();
+        List<Client> ownerSorted = new ArrayList<>(source.getOwners());
+        BigDecimal roundedDownMoney = source.getSaldo().divide(BigDecimal.valueOf(numberOfOwners), RoundingMode.DOWN);
+        for (int i = 0; i < ownerSorted.size(); i++) {
+            String singleAccountNumber = open(ownerSorted.get(i));
+            resultingAccounts.add(singleAccountNumber);
+            BigDecimal moneyForOnePerson;
+            if (i < ownerSorted.size() - 1) {
+                moneyForOnePerson = roundedDownMoney;
+            } else {
+                moneyForOnePerson = source.getSaldo();
+            }
+            transfer(sourceAccountNumber,
+                    moneyForOnePerson,
+                    singleAccountNumber
+            );
+        }
+        return resultingAccounts;
+    }
+
     @Override
     public String toString() {
-        return "BankService{" +
-                "accounts=" + accounts +
-                ", clients=" + clients +
-                '}';
+        StringBuilder text = new StringBuilder("BankService{");
+        for (Account account : accounts) {
+            text.append("\n").append(account);
+        }
+        return text.toString() + "\n}";
     }
 }

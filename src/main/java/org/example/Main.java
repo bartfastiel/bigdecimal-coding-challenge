@@ -25,8 +25,9 @@ public class Main {
 
 
         String jointAccount = bankOfExamplehausen.open(Set.of(dagobert, donald));
+        bankOfExamplehausen.transfer(dagobertAccountNumber, new BigDecimal("9.43"), jointAccount);
+        bankOfExamplehausen.split(jointAccount);
         System.out.println(bankOfExamplehausen);
-
 
     }
 }
